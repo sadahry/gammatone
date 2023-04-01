@@ -107,7 +107,7 @@ performing analysis.
 """
 
 
-def render_audio_from_file(path, duration, function):
+def render_audio_from_file(path, duration, function, out_file):
     """
     Renders the given ``duration`` of audio from the audio file at ``path``
     using the gammatone spectrogram function ``function``.
@@ -137,7 +137,7 @@ def render_audio_from_file(path, duration, function):
     axes.set_xlabel("Time (s)")
     axes.set_ylabel("Frequency")
 
-    matplotlib.pyplot.show()
+    matplotlib.pyplot.savefig(out_file)
 
 
 if __name__ == "__main__":
@@ -150,6 +150,8 @@ if __name__ == "__main__":
         "sound_file",
         help="The sound file to graph. See the help text for supported formats.",
     )
+
+    parser.add_argument("out_file", help="The path of gammatonegrams graph file.")
 
     parser.add_argument(
         "-d",
@@ -173,4 +175,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    render_audio_from_file(args.sound_file, args.duration, args.function)
+    render_audio_from_file(args.sound_file, args.duration, args.function, args.out_file)
