@@ -123,10 +123,10 @@ def render_audio_from_file(path, duration, function, out_file):
         signal = signal.mean(1)
 
     # Default gammatone-based spectrogram parameters
-    twin = 0.08
-    thop = twin / 2
-    channels = 1024
-    fmin = 20
+    twin = 0.025
+    thop = 0.010
+    channels = 512
+    fmin = 50
 
     # Set up the plot
     fig = matplotlib.pyplot.figure()
