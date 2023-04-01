@@ -140,7 +140,7 @@ def render_audio_from_file(path, duration, function):
     matplotlib.pyplot.show()
 
 
-def main():
+if __name__ == "__main__":
     """
     Entry point for CLI application to plot gammatonegrams of sound files.
     """
@@ -173,4 +173,4 @@ def main():
 
     args = parser.parse_args()
 
-    return render_audio_from_file(args.sound_file, args.duration, args.function)
+    render_audio_from_file(args.sound_file, args.duration, args.function)
