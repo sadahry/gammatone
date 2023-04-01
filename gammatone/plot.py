@@ -16,7 +16,7 @@ import numpy as np
 import scipy.constants
 import scipy.io.wavfile
 
-from .filters import erb_point
+from gammatone.filters import erb_point
 import gammatone.gtgram
 import gammatone.fftweight
 
