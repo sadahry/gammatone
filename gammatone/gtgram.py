@@ -4,6 +4,7 @@
 # BSD license: https://github.com/detly/gammatone/blob/master/COPYING
 from __future__ import division
 import numpy as np
+from scipy import signal
 
 from .filters import make_erb_filters, centre_freqs, erb_filterbank
 
@@ -58,6 +59,31 @@ def gtgram(wave, fs, window_time, hop_time, channels, f_min):
     | (c) 2013 Jason Heeris (Python implementation)
     """
     xe = gtgram_xe(wave, fs, channels, f_min)
+
+    nwin, hop_samples, ncols = gtgram_strides(fs, window_time, hop_time, xe.shape[1])
+
+    y = np.zeros((channels, ncols))
+
+    for cnum in range(ncols):
+        segment = xe[:, cnum * hop_samples + np.arange(nwin)]
+        y[:, cnum] = np.sqrt(segment.mean(1))
+
+    return y
+
+
+def gtgram_scipy(wave, fs, window_time, hop_time, channels, f_min):
+    cfs = centre_freqs(fs, channels, f_min)
+
+    t = np.linspace(0, len(wave) / fs, len(wave), endpoint=False)
+
+    xe = np.zeros((channels, len(wave)))
+
+    for i, cf in enumerate(reversed(cfs)):
+        b, a = signal.gammatone(cf, "iir", fs=fs)
+        _, xf = signal.dlsim((b, a, 1 / fs), wave, t=t)
+        xf = np.power(xf, 2)
+        xf += 1e-06
+        xe[i, :] = xf.squeeze()
 
     nwin, hop_samples, ncols = gtgram_strides(fs, window_time, hop_time, xe.shape[1])
 

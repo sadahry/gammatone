@@ -178,6 +178,18 @@ if __name__ == "__main__":
         " is more accurate.",
     )
 
+    parser.add_argument(
+        "-s",
+        "--scipy-gammatone",
+        action="store_const",
+        dest="function",
+        const=gammatone.gtgram.gtgram_scipy,
+        default=gammatone.fftweight.fft_gtgram,
+        help="Use the full filterbank approach instead of the weighted FFT "
+        "approximation. This is very much slower, and uses a lot of memory, but"
+        " is much more accurate.",
+    )
+
     args = parser.parse_args()
 
     render_audio_from_file(args.sound_file, args.duration, args.function, args.out_file)
