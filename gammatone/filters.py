@@ -34,7 +34,8 @@ def erb_point(low_freq, high_freq, fraction):
     # TODO: Factor these parameters out
     ear_q = 9.26449  # Glasberg and Moore Parameters
     min_bw = 24.7
-    order = 1
+    # order = 1
+    order = 4
 
     # All of the following expressions are derived in Apple TR #35, "An
     # Efficient Implementation of the Patterson-Holdsworth Cochlear Filter
@@ -127,7 +128,8 @@ def make_erb_filters(fs, centre_freqs, width=1.0):
     # TODO: factor these out
     ear_q = 9.26449  # Glasberg and Moore Parameters
     min_bw = 24.7
-    order = 1
+    # order = 1
+    order = 4
 
     erb = width * ((centre_freqs / ear_q) ** order + min_bw**order) ** (1 / order)
     B = 1.019 * 2 * np.pi * erb
