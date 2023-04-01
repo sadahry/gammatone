@@ -112,14 +112,15 @@ def render_audio_from_file(path, duration, function, out_file):
     Renders the given ``duration`` of audio from the audio file at ``path``
     using the gammatone spectrogram function ``function``.
     """
-    samplerate, data = scipy.io.wavfile.read(path)
+    samplerate, signal = scipy.io.wavfile.read(path)
 
-    # Average the stereo signal
     if duration:
         nframes = duration * samplerate
-        data = data[0:nframes, :]
+        signal = signal[0:nframes, :]
 
-    signal = data.mean(1)
+    # Average the stereo signal
+    if signal.ndim > 1:
+        signal = signal.mean(1)
 
     # Default gammatone-based spectrogram parameters
     twin = 0.08
