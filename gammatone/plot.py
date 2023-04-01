@@ -91,7 +91,11 @@ def gtgram_plot(
     # Calculate 1:1 aspect ratio
     aspect_ratio = duration / scipy.constants.golden
 
+    import time
+
+    start = time.time()
     gtg = gtgram_function(x, fs, window_time, hop_time, channels, f_min)
+    print("gtgram took", time.time() - start)
     Z = np.flipud(20 * np.log10(gtg))
 
     img = axes.imshow(Z, extent=[0, duration, 1, 0], aspect=aspect_ratio)
