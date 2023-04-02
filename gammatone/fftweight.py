@@ -119,7 +119,7 @@ def fft_weights(nfft, fs, nfilts, width, fmin, fmax, maxlen):
     return weights, gain
 
 
-def fft_gtgram(wave, fs, window_time, hop_time, channels, f_min):
+def fft_gtgram(wave, fs, window_time, hop_time, channels, f_min, nfft=None):
     """
     Calculate a spectrogram-like time frequency magnitude array based on
     an FFT-based approximation to gammatone subband filters.
@@ -139,7 +139,8 @@ def fft_gtgram(wave, fs, window_time, hop_time, channels, f_min):
     """
     width = 1  # Was a parameter in the MATLAB code
 
-    nfft = int(2 ** (np.ceil(np.log2(2 * window_time * fs))))
+    if nfft is None:
+        nfft = int(2 ** (np.ceil(np.log2(2 * window_time * fs))))
     nwin, nhop, _ = gtgram.gtgram_strides(fs, window_time, hop_time, 0)
 
     gt_weights, _ = fft_weights(nfft, fs, channels, width, f_min, fs / 2, nfft / 2 + 1)
